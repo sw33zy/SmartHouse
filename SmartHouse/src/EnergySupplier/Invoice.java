@@ -1,15 +1,15 @@
 package EnergySupplier;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Invoice {
-    private Date dateStart;
-    private Date dateEnd;
+    private LocalDate dateStart;
+    private LocalDate dateEnd;
     private String client;
     private float consumed;
     private float payed;
 
-    public Invoice(Date dateStart, Date dateEnd, String client, float consumed, float payed) {
+    public Invoice(LocalDate dateStart, LocalDate dateEnd, String client, float consumed, float payed) {
         this.dateStart = dateStart;
         this.dateEnd = dateEnd;
         this.client = client;
@@ -17,19 +17,19 @@ public class Invoice {
         this.payed = payed;
     }
 
-    public Date getDateStart() {
+    public LocalDate getDateStart() {
         return dateStart;
     }
 
-    public void setDateStart(Date dateStart) {
+    public void setDateStart(LocalDate dateStart) {
         this.dateStart = dateStart;
     }
 
-    public Date getDateEnd() {
+    public LocalDate getDateEnd() {
         return dateEnd;
     }
 
-    public void setDateEnd(Date dateEnd) {
+    public void setDateEnd(LocalDate dateEnd) {
         this.dateEnd = dateEnd;
     }
 

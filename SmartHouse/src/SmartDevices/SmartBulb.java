@@ -1,11 +1,5 @@
 package SmartDevices;
 
-enum Tone {
-    NEUTRAL,
-    WARM,
-    COLD
-}
-
 public class SmartBulb extends SmartDevice{
     private Tone tone;
     private float dimension;

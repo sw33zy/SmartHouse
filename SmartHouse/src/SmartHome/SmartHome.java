@@ -44,4 +44,24 @@ public class SmartHome {
     public Map<Integer, SmartDevice> getDevicesAll() {
         return devicesAll;
     }
+
+    public void setDevicesAll(Map<Integer, SmartDevice> devicesAll) {
+        this.devicesAll = devicesAll;
+    }
+
+    public Map<String, List<SmartDevice>> getDevicesRoom() {
+        return devicesRoom;
+    }
+
+    public void setDevicesRoom(Map<String, List<SmartDevice>> devicesRoom) {
+        this.devicesRoom = devicesRoom;
+    }
+
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public String getOwnerNIF() {
+        return ownerNIF;
+    }
 }
