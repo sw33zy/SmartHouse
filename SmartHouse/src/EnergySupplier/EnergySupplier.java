@@ -4,12 +4,14 @@ import java.time.LocalDate;
 import java.util.*;
 
 public class EnergySupplier{
+    private String name;
     private List<String> clients;
     private Map<String, Invoice> invoices;
     private float basePriceRate;
     private float tax;
 
-    public EnergySupplier( List<String> clients, Map<String, Invoice> invoices, float basePriceRate, float tax) {
+    public EnergySupplier(String name, List<String> clients, Map<String, Invoice> invoices, float basePriceRate, float tax) {
+        this.name = name;
         this.clients = clients;
         this.invoices = invoices;
         this.basePriceRate = basePriceRate;
@@ -17,7 +19,7 @@ public class EnergySupplier{
     }
 
     
-    public String topHousePeriod(LocalDate from, LocalDate till){
+    public AbstractMap.Entry<String, Float> topHousePeriod(LocalDate from, LocalDate till){
         String topHome = null;
         float payedMax = 0;
         for(Map.Entry<String, Invoice> entry : invoices.entrySet()){
@@ -28,7 +30,7 @@ public class EnergySupplier{
                 }
             }
         }
-        return topHome;
+        return new AbstractMap.SimpleEntry<>(topHome, payedMax);
     }
 
     public float totalMade(){
@@ -47,8 +49,8 @@ public class EnergySupplier{
         this.invoices.put(UUID.randomUUID().toString(), invoice);
     }
 
-    public List<String> topConsumers(LocalDate from, LocalDate till){
-        List<String> topConsumers = new ArrayList<>();
+    public Map<String, Float> topConsumers(LocalDate from, LocalDate till){
+        Map<String, Float> topConsumers = new HashMap<>();
         List<Invoice> inv = new ArrayList<Invoice>();
         for(Map.Entry<String, Invoice> entry : invoices.entrySet()){
             if(entry.getValue().getDateStart().compareTo(from)==0 && entry.getValue().getDateEnd().compareTo(till)==0){
@@ -57,7 +59,7 @@ public class EnergySupplier{
         }
 
         inv.sort((i1, i2) -> Float.compare(i1.getConsumed(), i2.getConsumed()));
-        inv.forEach(i -> topConsumers.add(i.getClient()));
+        inv.forEach(i -> topConsumers.put(i.getClient(), i.getPayed()));
         return topConsumers;
     }
 
@@ -75,5 +77,13 @@ public class EnergySupplier{
 
     public float getTax() {
         return tax;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

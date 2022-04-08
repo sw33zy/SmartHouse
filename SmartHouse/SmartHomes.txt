@@ -1,0 +1,40 @@
+[
+    {
+        "ownerName" : "John",
+        "ownerNIF" : "282731629",
+        "devices" : [
+            {
+                "type" : "SmartBulb",
+                "id" : "1",
+                "isOn" : "true",
+                "tone" : "WARM",
+                "dimension" : "62",
+                "baseConsume" : "34.56",
+                "toneConsume" : "1.75"
+            },
+            {
+                "type" : "SmartSpeaker",
+                "id" : "2",
+                "isOn" : "false",
+                "volume" : "20",
+                "station" : "92.9",
+                "brand" : "JBL",
+                "baseConsume" : "77.98",
+                "volumeConsume" : "0.50"
+            },
+            {
+                "type" : "SmartCamera",
+                "id" : "3",
+                "isOn" : "true",
+                "resolution" : "720",
+                "fileSize" : "2.5",
+                "fileSizeConsume" : "90.60"
+            }
+        ],
+        "rooms" : [
+            {"bedroom" : ["1"]},
+            {"kitchen" : ["2"]},
+            {"living-room" : ["3"]},
+        ]
+    }
+]
