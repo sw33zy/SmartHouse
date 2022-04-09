@@ -1,4 +1,4 @@
-package utils;
+package Utils;
 import SmartDevices.*;
 import SmartHome.SmartHome;
 import org.json.simple.JSONArray;

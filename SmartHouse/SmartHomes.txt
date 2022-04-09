@@ -1,6 +1,6 @@
 [
     {
-        "ownerName" : "John",
+        "ownerName" : "John Doe",
         "ownerNIF" : "282731629",
         "devices" : [
             {
@@ -13,9 +13,27 @@
                 "toneConsume" : "0.016"
             },
             {
-                "type" : "SmartSpeaker",
+                "type" : "SmartBulb",
                 "id" : "2",
+                "isOn" : "true",
+                "tone" : "NEUTRAL",
+                "dimension" : "62",
+                "baseConsume" : "0.045",
+                "toneConsume" : "0.016"
+            },
+            {
+                "type" : "SmartBulb",
+                "id" : "3",
                 "isOn" : "false",
+                "tone" : "WARM",
+                "dimension" : "62",
+                "baseConsume" : "0.045",
+                "toneConsume" : "0.016"
+            },
+            {
+                "type" : "SmartSpeaker",
+                "id" : "4",
+                "isOn" : "true",
                 "volume" : "86",
                 "station" : "92.9",
                 "brand" : "JBL",
@@ -24,7 +42,7 @@
             },
             {
                 "type" : "SmartCamera",
-                "id" : "3",
+                "id" : "5",
                 "isOn" : "true",
                 "resolution" : "360",
                 "fileSize" : "0.5",
@@ -32,9 +50,85 @@
             }
         ],
         "rooms" : [
-            {"bedroom" : ["1"]},
+            {"bedroom" : ["1", "4"]},
+            {"kitchen" : ["2"]},
+            {"living-room" : ["3", "5"]},
+        ]
+    },
+    {
+        "ownerName" : "Alice Smith",
+        "ownerNIF" : "631783102",
+        "devices" : [
+            {
+                "type" : "SmartBulb",
+                "id" : "1",
+                "isOn" : "false",
+                "tone" : "WARM",
+                "dimension" : "62",
+                "baseConsume" : "0.045",
+                "toneConsume" : "0.016"
+            },
+            {
+                "type" : "SmartBulb",
+                "id" : "2",
+                "isOn" : "true",
+                "tone" : "NEUTRAL",
+                "dimension" : "62",
+                "baseConsume" : "0.045",
+                "toneConsume" : "0.016"
+            },
+            {
+                "type" : "SmartBulb",
+                "id" : "3",
+                "isOn" : "false",
+                "tone" : "WARM",
+                "dimension" : "62",
+                "baseConsume" : "0.045",
+                "toneConsume" : "0.016"
+            },
+            {
+                "type" : "SmartBulb",
+                "id" : "4",
+                "isOn" : "true",
+                "tone" : "NEUTRAL",
+                "dimension" : "62",
+                "baseConsume" : "0.045",
+                "toneConsume" : "0.016"
+            },
+            {
+                "type" : "SmartSpeaker",
+                "id" : "5",
+                "isOn" : "true",
+                "volume" : "86",
+                "station" : "92.9",
+                "brand" : "JBL",
+                "baseConsume" : "2.4",
+                "volumeConsume" : "0.05"
+            },
+            {
+                "type" : "SmartSpeaker",
+                "id" : "6",
+                "isOn" : "false",
+                "volume" : "75",
+                "station" : "89.2",
+                "brand" : "JBL",
+                "baseConsume" : "2.4",
+                "volumeConsume" : "0.05"
+            },
+            {
+                "type" : "SmartCamera",
+                "id" : "7",
+                "isOn" : "true",
+                "resolution" : "360",
+                "fileSize" : "0.5",
+                "fileSizeConsume" : "0.96"
+            }
+        ],
+        "rooms" : [
+            {"bedroom" : ["1", "5"]},
             {"kitchen" : ["2"]},
             {"living-room" : ["3"]},
+            {"hall" : ["4", "6", "7"]}
         ]
     }
 ]

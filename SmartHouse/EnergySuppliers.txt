@@ -4,5 +4,11 @@
         "basePriceRate" : "0.755",
         "tax" : "0.13",
         "clients" : ["282731629"]
+    },
+    {
+        "name" : "IberDrola",
+        "basePriceRate" : "0.655",
+        "tax" : "0.17",
+        "clients" : ["631783102"]
     }
 ]

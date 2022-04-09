@@ -45,7 +45,7 @@ public class SmartHome implements Serializable {
     }
 
     public int toggleDevice(int idDevice) throws InvalidDeviceException {
-        int value = -1;
+        int value;
 
         SmartDevice sd = devicesAll.get(idDevice);
         if(sd!=null){

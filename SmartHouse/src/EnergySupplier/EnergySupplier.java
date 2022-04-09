@@ -69,7 +69,7 @@ public class EnergySupplier implements Serializable {
         }
 
         inv.sort((i1, i2) -> Float.compare(i1.getConsumed(), i2.getConsumed()));
-        inv.forEach(i -> topConsumers.put(i.getClient(), i.getPayed()));
+        inv.forEach(i -> topConsumers.put(i.getClient(), i.getConsumed()));
         return topConsumers;
     }
 
@@ -105,11 +105,12 @@ public class EnergySupplier implements Serializable {
         sb.append("\tbasePriceRate=").append(basePriceRate).append("€").append('\n');
         sb.append("\ttax=").append(tax).append("€").append('\n');
         sb.append("\tclients=");
+        sb.append("[");
         for(String client : clients){
-            sb.append("[").append(client);
+            sb.append(client);
             if((clients.indexOf(client) + 1) < clients.size()) sb.append(", ");
-            sb.append("]\n");
         }
+        sb.append("]\n");
         sb.append('}');
         return sb.toString();
     }

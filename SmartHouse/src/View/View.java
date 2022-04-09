@@ -156,8 +156,9 @@ public class View {
             return;
         }
         System.out.println(ANSI_YELLOW + "\nTop energy consuming houses in the period: " + from + " - " + till + ANSI_RESET);
+        int i = top.size();
         for(Map.Entry<String, Float> entry : top.entrySet()){
-            System.out.println(entry.getKey() + entry.getValue());
+            System.out.println("\t" + (i--) + ") Owner Name: " + entry.getKey() + "; Consumption: " + entry.getValue() + "kWday");
         }
     }
 

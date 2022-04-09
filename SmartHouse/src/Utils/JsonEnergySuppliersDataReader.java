@@ -1,4 +1,4 @@
-package utils;
+package Utils;
 
 import EnergySupplier.EnergySupplier;
 import EnergySupplier.Invoice;

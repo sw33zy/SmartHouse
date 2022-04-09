@@ -1,13 +1,16 @@
 package Controller;
 
 import Exceptions.*;
-import utils.JsonEnergySuppliersDataReader;
-import utils.JsonSmartHomesDataReader;
+import Model.SmartManagerFacade;
+import Utils.JsonEnergySuppliersDataReader;
+import Utils.JsonSmartHomesDataReader;
 import View.View;
 
 import java.io.IOException;
 import java.time.DateTimeException;
 import java.time.LocalDate;
+
+import static java.time.temporal.ChronoUnit.DAYS;
 
 public class Controller {
     public static void run() {
@@ -24,11 +27,31 @@ public class Controller {
 
             switch (opcao) {
                 case 1:
-                    int days = View.askInt("Insert number of days to go ahead: ");
-                    try {
-                        smf.passTime(days);
-                    } catch (InvalidHomeException e) {
-                        e.printStackTrace();
+                    int type = View.askInt("\n> (1) Pass time in days;\n> (2) Go to certain date.\n");
+                    if(type==1){
+                        int days = View.askInt("Insert number of days to go ahead: ");
+                        try {
+                            smf.passTime(days);
+                        } catch (InvalidHomeException e) {
+                            View.showError(e.getMessage());
+                        }
+                    }else if(type==2){
+                        try{
+                            int day = View.askInt("Insert future day: ");
+                            int month = View.askInt("Insert future month: ");
+                            int year = View.askInt("Insert future year: ");
+                            long daysBetween = DAYS.between(smf.getCurrentDate(), LocalDate.of(year, month, day));
+                            System.out.println((int) daysBetween);
+                            if(daysBetween <= 0){
+                                View.showError("Insert valid date in the future.");
+                                break;
+                            }
+                            smf.passTime((int) daysBetween);
+                        } catch (InvalidHomeException e) {
+                            View.showError(e.getMessage());
+                        }
+                    } else{
+                        View.showError("Invalid option");
                     }
                     break;
                 case 2:
@@ -78,7 +101,7 @@ public class Controller {
                     }
                     break;
                 case 6:
-                    int type = View.askInt("Current houses state: \n> (1) By NIF;\n> (2) Show all.\n");
+                    type = View.askInt("Current houses state: \n> (1) By NIF;\n> (2) Show all.\n");
                     if(type==2){
                         View.showStateHousesAll(smf.smartHomeCurrentState());
                     }else if(type==1){
