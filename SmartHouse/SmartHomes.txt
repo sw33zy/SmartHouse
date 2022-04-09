@@ -6,29 +6,29 @@
             {
                 "type" : "SmartBulb",
                 "id" : "1",
-                "isOn" : "true",
+                "isOn" : "false",
                 "tone" : "WARM",
                 "dimension" : "62",
-                "baseConsume" : "34.56",
-                "toneConsume" : "1.75"
+                "baseConsume" : "0.045",
+                "toneConsume" : "0.016"
             },
             {
                 "type" : "SmartSpeaker",
                 "id" : "2",
                 "isOn" : "false",
-                "volume" : "20",
+                "volume" : "86",
                 "station" : "92.9",
                 "brand" : "JBL",
-                "baseConsume" : "77.98",
-                "volumeConsume" : "0.50"
+                "baseConsume" : "2.4",
+                "volumeConsume" : "0.05"
             },
             {
                 "type" : "SmartCamera",
                 "id" : "3",
                 "isOn" : "true",
-                "resolution" : "720",
-                "fileSize" : "2.5",
-                "fileSizeConsume" : "90.60"
+                "resolution" : "360",
+                "fileSize" : "0.5",
+                "fileSizeConsume" : "0.96"
             }
         ],
         "rooms" : [

@@ -1,6 +1,8 @@
 package SmartDevices;
 
-public abstract class SmartDevice {
+import java.io.Serializable;
+
+public abstract class SmartDevice implements Serializable {
     private int id;
     private boolean isOn;
 
@@ -24,4 +26,13 @@ public abstract class SmartDevice {
     public void setOn(boolean on) {
         isOn = on;
     }
+
+    @Override
+    public String toString() {
+        return "SmartDevice{" +
+                "\n\t\t\t\tid=" + id +
+                ",\n\t\t\t\tisOn=" + isOn +
+                "\n\t\t\t}";
+    }
+
 }

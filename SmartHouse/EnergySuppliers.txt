@@ -2,7 +2,7 @@
     {
         "name" : "EDP",
         "basePriceRate" : "0.755",
-        "tax" : "0.23",
+        "tax" : "0.13",
         "clients" : ["282731629"]
     }
 ]

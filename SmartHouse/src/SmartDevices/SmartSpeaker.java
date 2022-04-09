@@ -1,6 +1,8 @@
 package SmartDevices;
 
-public class SmartSpeaker extends SmartDevice{
+import java.io.Serializable;
+
+public class SmartSpeaker extends SmartDevice implements Serializable {
     private int volume;
     private float station;
     private String brand;
@@ -54,5 +56,21 @@ public class SmartSpeaker extends SmartDevice{
 
     public void setVolumeConsume(float volumeConsume) {
         this.volumeConsume = volumeConsume;
+    }
+
+    @Override
+    public String toString() {
+        return "SmartSpeaker{\n" +
+                "\t\t\tvolume=" + volume + "dB" +
+                ",\n\t\t\tstation=" + station + "FM" +
+                ",\n\t\t\tbrand='" + brand + '\'' +
+                ",\n\t\t\tbaseConsume=" + baseConsume + "kWday" +
+                ",\n\t\t\tvolumeConsume=" + volumeConsume + "kWday" +
+                ",\n\t\t\t" + super.toString() +
+                "\n\t\t}\n";
+    }
+
+    public SmartSpeaker(SmartSpeaker that){
+        this(that.getId(), that.isOn(), that.getVolume(), that.getStation(), that.getBrand(), that.getBaseConsume(), that.getVolumeConsume());
     }
 }

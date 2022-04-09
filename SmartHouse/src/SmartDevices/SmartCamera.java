@@ -1,6 +1,8 @@
 package SmartDevices;
 
-public class SmartCamera extends SmartDevice{
+import java.io.Serializable;
+
+public class SmartCamera extends SmartDevice implements Serializable {
     private int resolution;
     private float fileSize;
     private float fileSizeConsume;
@@ -34,5 +36,19 @@ public class SmartCamera extends SmartDevice{
 
     public void setFileSizeConsume(float fileSizeConsume) {
         this.fileSizeConsume = fileSizeConsume;
+    }
+
+    @Override
+    public String toString() {
+        return "SmartCamera{\n" +
+                "\t\t\tresolution=" + resolution + "p" +
+                ",\n\t\t\tfileSize=" + fileSize + "GB" +
+                ",\n\t\t\tfileSizeConsume=" + fileSizeConsume + "kWday" +
+                ",\n\t\t\t" + super.toString() +
+                "\n\t\t}\n";
+    }
+
+    public SmartCamera(SmartCamera that){
+        this(that.getId(), that.isOn(), that.getResolution(), that.getFileSize(), that.getFileSizeConsume());
     }
 }

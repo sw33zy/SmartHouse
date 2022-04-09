@@ -1,6 +1,8 @@
 package SmartDevices;
 
-public enum Tone {
+import java.io.Serializable;
+
+public enum Tone implements Serializable {
     NEUTRAL,
     WARM,
     COLD

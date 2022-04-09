@@ -1,9 +1,10 @@
 package EnergySupplier;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.*;
 
-public class EnergySupplier{
+public class EnergySupplier implements Serializable {
     private String name;
     private List<String> clients;
     private Map<String, Invoice> invoices;
@@ -34,7 +35,7 @@ public class EnergySupplier{
     }
 
     public float totalMade(){
-        int totalMade=0;
+        float totalMade=0;
         for(Map.Entry<String, Invoice> entry : invoices.entrySet()){
             totalMade+=entry.getValue().getPayed();
         }
@@ -45,13 +46,22 @@ public class EnergySupplier{
         return invoices;
     }
 
+    public Map<String, String> getInvoicesString() {
+        Map<String, String> invoicesString = new HashMap<>();
+        for(Map.Entry<String, Invoice> entry : invoices.entrySet()){
+            invoicesString.put(entry.getKey(),entry.getValue().toString());
+        }
+        return invoicesString;
+    }
+
+
     public void addInvoice(Invoice invoice){
         this.invoices.put(UUID.randomUUID().toString(), invoice);
     }
 
     public Map<String, Float> topConsumers(LocalDate from, LocalDate till){
         Map<String, Float> topConsumers = new HashMap<>();
-        List<Invoice> inv = new ArrayList<Invoice>();
+        List<Invoice> inv = new ArrayList<>();
         for(Map.Entry<String, Invoice> entry : invoices.entrySet()){
             if(entry.getValue().getDateStart().compareTo(from)==0 && entry.getValue().getDateEnd().compareTo(till)==0){
                 inv.add(entry.getValue());
@@ -85,5 +95,22 @@ public class EnergySupplier{
 
     public void setName(String name) {
         this.name = name;
+    }
+
+
+    public String toString(int id) {
+        StringBuilder sb = new StringBuilder("EnergySupplier{\n");
+        sb.append("\tID=").append(id).append('\n');
+        sb.append("\tname=").append(name).append('\n');
+        sb.append("\tbasePriceRate=").append(basePriceRate).append("€").append('\n');
+        sb.append("\ttax=").append(tax).append("€").append('\n');
+        sb.append("\tclients=");
+        for(String client : clients){
+            sb.append("[").append(client);
+            if((clients.indexOf(client) + 1) < clients.size()) sb.append(", ");
+            sb.append("]\n");
+        }
+        sb.append('}');
+        return sb.toString();
     }
 }

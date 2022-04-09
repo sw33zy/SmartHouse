@@ -1,8 +1,9 @@
 package EnergySupplier;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Invoice {
+public class Invoice implements Serializable {
     private LocalDate dateStart;
     private LocalDate dateEnd;
     private String client;
@@ -55,5 +56,16 @@ public class Invoice {
 
     public void setPayed(float payed) {
         this.payed = payed;
+    }
+
+    @Override
+    public String toString() {
+        return "Invoice{\n" +
+                "\tdateStart=" + dateStart +
+                ",\n\tdateEnd=" + dateEnd +
+                ",\n\tclient='" + client + '\'' +
+                ",\n\tconsumed=" + consumed +
+                ",\n\tpayed=" + payed +
+                "\n}";
     }
 }

@@ -1,6 +1,8 @@
 package SmartDevices;
 
-public class SmartBulb extends SmartDevice{
+import java.io.Serializable;
+
+public class SmartBulb extends SmartDevice implements Serializable {
     private Tone tone;
     private float dimension;
     private float baseConsume;
@@ -46,4 +48,20 @@ public class SmartBulb extends SmartDevice{
     public void setToneConsume(float toneConsume) {
         this.toneConsume = toneConsume;
     }
+
+    @Override
+    public String toString() {
+        return "SmartBulb{\n" +
+                "\t\t\ttone=" + tone +
+                ",\n\t\t\tdimension=" + dimension + "mm" +
+                ",\n\t\t\tbaseConsume=" + baseConsume + "kWday" +
+                ",\n\t\t\ttoneConsume=" + toneConsume + "kWday" +
+                ",\n\t\t\t" + super.toString() +
+                "\n\t\t}\n";
+    }
+
+    public SmartBulb(SmartBulb that){
+        this(that.getId(), that.isOn(), that.getTone(), that.getDimension(), that.getBaseConsume(), that.getToneConsume());
+    }
+
 }
