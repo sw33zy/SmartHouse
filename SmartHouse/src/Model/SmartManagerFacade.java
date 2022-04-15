@@ -57,12 +57,12 @@ public class SmartManagerFacade implements Serializable {
                         if (((SmartBulb) entry.getValue()).getTone() == Tone.NEUTRAL) toneFactor = 1;
                         if (((SmartBulb) entry.getValue()).getTone() == Tone.WARM) toneFactor = 0.8F;
                         if (((SmartBulb) entry.getValue()).getTone() == Tone.COLD) toneFactor = 1.2F;
-                        consumption += (((SmartBulb) entry.getValue()).getBaseConsume() * days +
-                                ((SmartBulb) entry.getValue()).getToneConsume() * toneFactor);
+                        consumption += (((SmartBulb) entry.getValue()).getBaseConsume()  +
+                                ((SmartBulb) entry.getValue()).getToneConsume() * toneFactor) * days;
                     }
                     if (entry.getValue() instanceof SmartSpeaker) {
-                        consumption += (((SmartSpeaker) entry.getValue()).getBaseConsume() * days +
-                                ((SmartSpeaker) entry.getValue()).getVolumeConsume() * ((SmartSpeaker) entry.getValue()).getVolume());
+                        consumption += (((SmartSpeaker) entry.getValue()).getBaseConsume() +
+                                ((SmartSpeaker) entry.getValue()).getVolumeConsume() * ((SmartSpeaker) entry.getValue()).getVolume())  * days ;
                     }
                     if (entry.getValue() instanceof SmartCamera) {
                         consumption += (((SmartCamera) entry.getValue()).getFileSizeConsume()
@@ -165,11 +165,11 @@ public class SmartManagerFacade implements Serializable {
         if(changedsmarthomes.size() > 0) {
 
             smarthomes.putAll(changedsmarthomes);
-            changedsupplier = new HashMap<>();
+            changedsmarthomes = new HashMap<>();
         }
         if(changedsupplier.size() > 0) {
             suppliers.putAll(changedsupplier);
-            changedsmarthomes = new HashMap<>();
+            changedsupplier = new HashMap<>();
         }
     }
 
@@ -183,7 +183,7 @@ public class SmartManagerFacade implements Serializable {
         this.currentDate = endLocalDate;
     }
 
-    public AbstractMap.Entry<String, Float> topHousePeriod(LocalDate from, LocalDate till) throws InexistentInvoices {
+    public AbstractMap.Entry<String, Float> topHousePeriod(LocalDate from, LocalDate till) throws InexistentInvoicesException {
         String topHouse = null;
         float topPayed = 0F;
         for(Map.Entry<Integer,EnergySupplier> entry : suppliers.entrySet()){
@@ -192,11 +192,11 @@ public class SmartManagerFacade implements Serializable {
                 topHouse = entry.getValue().topHousePeriod(from, till).getKey();
             }
         }
-        if(topHouse == null) throw new InexistentInvoices("There aren´t invoices in the period: " + from + " to " +till);
+        if(topHouse == null) throw new InexistentInvoicesException("There aren´t invoices in the period: " + from + " to " +till);
         return new AbstractMap.SimpleEntry<>(smarthomes.get(topHouse).getOwnerName(),topPayed);
     }
 
-    public AbstractMap.Entry<String, Float> topSupplier() throws InexistentInvoices {
+    public AbstractMap.Entry<String, Float> topSupplier() throws InexistentInvoicesException {
         String name = null;
         float topMade = 0F;
         for(Map.Entry<Integer,EnergySupplier> entry : suppliers.entrySet()){
@@ -205,7 +205,7 @@ public class SmartManagerFacade implements Serializable {
                 name  = entry.getValue().getName();
             }
         }
-        if(name == null) throw new InexistentInvoices("There haven't been generated any invoices!");
+        if(name == null) throw new InexistentInvoicesException("There haven't been generated any invoices!");
 
         return new AbstractMap.SimpleEntry<>(name ,topMade);
     }

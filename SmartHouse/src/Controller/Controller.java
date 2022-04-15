@@ -49,6 +49,8 @@ public class Controller {
                             smf.passTime((int) daysBetween);
                         } catch (InvalidHomeException e) {
                             View.showError(e.getMessage());
+                        } catch (DateTimeException e) {
+                            View.showError("Invalid Date");
                         }
                     } else{
                         View.showError("Invalid option");
@@ -73,7 +75,7 @@ public class Controller {
                         View.showTopHouse(smf.topHousePeriod(LocalDate.of(year, month, day), LocalDate.of(year2, month2, day2)), LocalDate.of(year, month, day), LocalDate.of(year2, month2, day2));
                     } catch (DateTimeException e) {
                         View.showError("Invalid Date");
-                    } catch (InexistentInvoices e){
+                    } catch (InexistentInvoicesException e){
                         //e.printStackTrace();
                         View.showError(e.getMessage());
                     }
@@ -82,7 +84,7 @@ public class Controller {
                 case 4:
                     try {
                         View.showTopSupplier(smf.topSupplier());
-                    } catch (InexistentInvoices e){
+                    } catch (InexistentInvoicesException e){
                         //e.printStackTrace();
                         View.showError(e.getMessage());
                     }
@@ -181,7 +183,7 @@ public class Controller {
                     type = View.askInt("\n> (1) Change supplier base energy rate;\n> (2) Change supplier energy tax.\n");
                     if(type==1){
                         try {
-                            float baseRate = View.askInt("Insert new base energy rate: ");
+                            float baseRate = View.askFloat("Insert new base energy rate: ");
                             smf.changeSupplierBaseRate(id, baseRate);
                             View.updateBaseRate(id, baseRate, 1);
                         } catch (InvalidSupplierException e){
@@ -190,7 +192,7 @@ public class Controller {
                         }
                     }else if(type==2){
                         try {
-                            float tax = View.askInt("Insert new energy tax: ");
+                            float tax = View.askFloat("Insert new energy tax: ");
                             smf.changeSupplierTax(id, tax);
                             View.updateBaseRate(id, tax, 2);
                         } catch (InvalidSupplierException e){

@@ -103,7 +103,7 @@ public class EnergySupplier implements Serializable {
         sb.append("\tID=").append(id).append('\n');
         sb.append("\tname=").append(name).append('\n');
         sb.append("\tbasePriceRate=").append(basePriceRate).append("€").append('\n');
-        sb.append("\ttax=").append(tax).append("€").append('\n');
+        sb.append("\ttax=").append(tax).append("%").append('\n');
         sb.append("\tclients=");
         sb.append("[");
         for(String client : clients){

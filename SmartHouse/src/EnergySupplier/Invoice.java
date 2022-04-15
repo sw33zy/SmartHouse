@@ -64,8 +64,8 @@ public class Invoice implements Serializable {
                 "\tdateStart=" + dateStart +
                 ",\n\tdateEnd=" + dateEnd +
                 ",\n\tclient='" + client + '\'' +
-                ",\n\tconsumed=" + consumed +
-                ",\n\tpayed=" + payed +
+                ",\n\tconsumed=" + consumed + "kW" +
+                ",\n\tpayed=" + payed + "€" +
                 "\n}";
     }
 }

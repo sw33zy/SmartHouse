@@ -94,6 +94,27 @@ public class View {
         //input.close();
         return i;
     }
+
+    public static float askFloat(String msg){
+        System.out.print(msg);
+        Scanner input = new Scanner(System.in);
+        boolean ok = false;
+        float i = 0;
+        while(!ok) {
+            try {
+                i = input.nextFloat();
+                ok = true;
+            }
+            catch(InputMismatchException e)
+            { System.out.println("Invalid Value");
+                System.out.print("New input: ");
+                input.nextLine();
+            }
+        }
+        //input.close();
+        return i;
+    }
+
     public static String askString(String message){
         System.out.println(message);
         Scanner input = new Scanner(System.in);

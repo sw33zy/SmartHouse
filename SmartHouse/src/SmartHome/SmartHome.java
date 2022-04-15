@@ -8,18 +8,17 @@ import SmartDevices.SmartDevice;
 import SmartDevices.SmartSpeaker;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class SmartHome implements Serializable {
     private Map<Integer, SmartDevice> devicesAll;
-    private Map<String, List<SmartDevice>> devicesRoom;
+    private Map<String, List<Integer>> devicesRoom;
     private String ownerName;
     private String ownerNIF;
 
-    public SmartHome(Map<Integer, SmartDevice> devicesAll, Map<String, List<SmartDevice>> devicesRoom, String ownerName, String ownerNIF) {
+    public SmartHome(Map<Integer, SmartDevice> devicesAll, Map<String, List<Integer>> devicesRoom, String ownerName, String ownerNIF) {
         this.devicesAll = devicesAll;
         this.devicesRoom = devicesRoom;
         this.ownerName = ownerName;
@@ -27,17 +26,15 @@ public class SmartHome implements Serializable {
     }
 
     public void toggleRoomDevices(String room, int value) throws InvalidRoomException {
-        List<SmartDevice> devices = devicesRoom.get(room);
+        List<Integer> devices = devicesRoom.get(room);
         if (devices!=null){
-            for(SmartDevice sd : devices) {
+            for(Integer sd : devices) {
                 if (value == 1) {
-                    sd.setOn(true);
-                    SmartDevice s = devicesAll.get(sd.getId());
+                    SmartDevice s = devicesAll.get(sd);
                     s.setOn(true);
                 }
                 if (value == 0) {
-                    sd.setOn(false);
-                    SmartDevice s = devicesAll.get(sd.getId());
+                    SmartDevice s = devicesAll.get(sd);
                     s.setOn(false);
                 }
             }
@@ -52,12 +49,6 @@ public class SmartHome implements Serializable {
             sd.setOn(!sd.isOn());
             value = sd.isOn() ? 1 : 0;
 
-            for(Map.Entry<String, List<SmartDevice>> entry: devicesRoom.entrySet()){
-                for(SmartDevice s : entry.getValue()){
-                    if(s.getId()== sd.getId())
-                        s.setOn(sd.isOn());
-                }
-            }
         } else throw new InvalidDeviceException("Device: " + idDevice + " doesn't exist.");
 
         return value;
@@ -71,11 +62,11 @@ public class SmartHome implements Serializable {
         this.devicesAll = devicesAll;
     }
 
-    public Map<String, List<SmartDevice>> getDevicesRoom() {
+    public Map<String, List<Integer>> getDevicesRoom() {
         return devicesRoom;
     }
 
-    public void setDevicesRoom(Map<String, List<SmartDevice>> devicesRoom) {
+    public void setDevicesRoom(Map<String, List<Integer>> devicesRoom) {
         this.devicesRoom = devicesRoom;
     }
 
@@ -93,10 +84,10 @@ public class SmartHome implements Serializable {
         StringBuilder sb = new StringBuilder("SmartHome{\n");
         sb.append("\townerName=").append(ownerName).append('\n');
         sb.append("\townerNIF=").append(ownerNIF).append('\n');
-        for(Map.Entry<String, List<SmartDevice>> entry : devicesRoom.entrySet()){
+        for(Map.Entry<String, List<Integer>> entry : devicesRoom.entrySet()){
             sb.append("\t").append(entry.getKey()).append("{\n");
-            for(SmartDevice sd : entry.getValue()){
-                sb.append("\t\t").append(sd.toString());
+            for(Integer sd : entry.getValue()){
+                sb.append("\t\t").append(devicesAll.get(sd).toString());
             }
             sb.append("\t}\n");
         }
@@ -120,28 +111,28 @@ public class SmartHome implements Serializable {
         return copy;
     }
 
-    public Map<String, List<SmartDevice>> copyDevicesRoom(){
-        Map<String, List<SmartDevice>> copy2 = new HashMap<>();
-
-        for(Map.Entry<String, List<SmartDevice>> entry : this.devicesRoom.entrySet()){
-            List<SmartDevice> listcopy = new ArrayList<>();
-            for(SmartDevice sd : entry.getValue()){
-                if(sd instanceof SmartBulb){
-                    listcopy.add(new SmartBulb((SmartBulb) sd));
-                }
-                if(sd instanceof SmartSpeaker){
-                    listcopy.add(new SmartSpeaker((SmartSpeaker) sd));
-                }
-                if(sd instanceof SmartCamera){
-                    listcopy.add(new SmartCamera((SmartCamera) sd));
-                }
-            }
-            copy2.put(entry.getKey(), listcopy);
-        }
-        return copy2;
-    }
+//    public Map<String, List<Integer>> copyDevicesRoom(){
+//        Map<String, List<SmartDevice>> copy2 = new HashMap<>();
+//
+//        for(Map.Entry<String, List<SmartDevice>> entry : this.devicesRoom.entrySet()){
+//            List<SmartDevice> listcopy = new ArrayList<>();
+//            for(SmartDevice sd : entry.getValue()){
+//                if(sd instanceof SmartBulb){
+//                    listcopy.add(new SmartBulb((SmartBulb) sd));
+//                }
+//                if(sd instanceof SmartSpeaker){
+//                    listcopy.add(new SmartSpeaker((SmartSpeaker) sd));
+//                }
+//                if(sd instanceof SmartCamera){
+//                    listcopy.add(new SmartCamera((SmartCamera) sd));
+//                }
+//            }
+//            copy2.put(entry.getKey(), listcopy);
+//        }
+//        return copy2;
+//    }
 
     public SmartHome(SmartHome that){
-        this(that.copyDevicesAll(), that.copyDevicesRoom(), that.getOwnerName(), that.getOwnerNIF());
+        this(that.copyDevicesAll(), that.getDevicesRoom(), that.getOwnerName(), that.getOwnerNIF());
     }
 }

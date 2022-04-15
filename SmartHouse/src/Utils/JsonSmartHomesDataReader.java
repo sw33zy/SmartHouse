@@ -31,7 +31,7 @@ public class JsonSmartHomesDataReader {
                 JSONArray devices = (JSONArray) house.get("devices");
 
                 Map<Integer, SmartDevice> devicesAll = new HashMap<>();
-                Map<String, List<SmartDevice>> devicesRoom = new HashMap<>();
+                Map<String, List<Integer>> devicesRoom = new HashMap<>();
 
                 for (Object d : devices) {
                     JSONObject deviceinfo = (JSONObject) d;
@@ -82,11 +82,11 @@ public class JsonSmartHomesDataReader {
                     JSONObject roominfo = (JSONObject) r;
                     List<Object> ids = List.of(roominfo.values().toArray());
                     for(Object rm : roominfo.keySet()) {
-                        List<SmartDevice> devicesList = new ArrayList<>();
+                        List<Integer> devicesList = new ArrayList<>();
                         for (Object value : ids) {
                             List idlist = (List) value;
                             for (Object id : idlist) {
-                                devicesList.add(devicesAll.get(Integer.parseInt((String) id)));
+                                devicesList.add(Integer.parseInt((String) id));
                                 devicesRoom.put((String) rm, devicesList);
                             }
                         }
