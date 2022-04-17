@@ -9,10 +9,7 @@ import org.json.simple.parser.ParseException;
 
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class JsonEnergySuppliersDataReader {
 
@@ -34,7 +31,7 @@ public class JsonEnergySuppliersDataReader {
                 JSONArray clients = (JSONArray) supplier.get("clients");
 
                 List<String> clientsAll = new ArrayList<>();
-                Map<String, Invoice> invoices = new HashMap<>();
+                Map<String, Invoice> invoices = new LinkedHashMap<>();
 
                 for (Object d : clients) {
                     clientsAll.add((String) d);

@@ -3,6 +3,7 @@ package EnergySupplier;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class EnergySupplier implements Serializable {
     private String name;
@@ -47,7 +48,7 @@ public class EnergySupplier implements Serializable {
     }
 
     public Map<String, String> getInvoicesString() {
-        Map<String, String> invoicesString = new HashMap<>();
+        Map<String, String> invoicesString = new LinkedHashMap<>();
         for(Map.Entry<String, Invoice> entry : invoices.entrySet()){
             invoicesString.put(entry.getKey(),entry.getValue().toString());
         }
