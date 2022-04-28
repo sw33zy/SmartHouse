@@ -4,12 +4,12 @@ import java.io.Serializable;
 
 public class SmartSpeaker extends SmartDevice implements Serializable {
     private int volume;
-    private float station;
+    private String station;
     private String brand;
     private float baseConsume;
     private float volumeConsume;
 
-    public SmartSpeaker(int id, boolean isOn, int volume, float station, String brand, float baseConsume, float volumeConsume) {
+    public SmartSpeaker(int id, boolean isOn, int volume, String station, String brand, float baseConsume, float volumeConsume) {
         super(id, isOn);
         this.volume = volume;
         this.station = station;
@@ -26,11 +26,11 @@ public class SmartSpeaker extends SmartDevice implements Serializable {
         this.volume = volume;
     }
 
-    public float getStation() {
+    public String getStation() {
         return station;
     }
 
-    public void setStation(float station) {
+    public void setStation(String station) {
         this.station = station;
     }
 
@@ -62,7 +62,7 @@ public class SmartSpeaker extends SmartDevice implements Serializable {
     public String toString() {
         return "SmartSpeaker{\n" +
                 "\t\t\tvolume=" + volume + "dB" +
-                ",\n\t\t\tstation=" + station + "FM" +
+                ",\n\t\t\tstation=" + station +
                 ",\n\t\t\tbrand='" + brand + '\'' +
                 ",\n\t\t\tbaseConsume=" + baseConsume + "kWday" +
                 ",\n\t\t\tvolumeConsume=" + volumeConsume + "kWday" +

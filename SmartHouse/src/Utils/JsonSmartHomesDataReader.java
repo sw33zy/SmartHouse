@@ -56,7 +56,7 @@ public class JsonSmartHomesDataReader {
                         int id = Integer.parseInt((String)deviceinfo.get("id"));
                         boolean isOn =  deviceinfo.get("isOn").equals("true");
                         int volume = Integer.parseInt((String) deviceinfo.get("volume"));
-                        float station = Float.parseFloat((String)deviceinfo.get("station"));
+                        String station = (String)deviceinfo.get("station");
                         String brand = (String) deviceinfo.get("brand");
                         float baseConsume = Float.parseFloat((String)deviceinfo.get("baseConsume"));
                         float volumeConsume = Float.parseFloat((String)deviceinfo.get("volumeConsume"));
