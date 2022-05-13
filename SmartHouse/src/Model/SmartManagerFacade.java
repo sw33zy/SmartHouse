@@ -75,6 +75,11 @@ public class SmartManagerFacade implements Serializable {
     }
 
     private Integer clientSupplier(String smarthome){
+        for(Map.Entry<Integer,EnergySupplier> entry : changedsupplier.entrySet()){
+            if(entry.getValue().getClients().contains(smarthome)){
+                return entry.getKey();
+            }
+        }
         for(Map.Entry<Integer,EnergySupplier> entry : suppliers.entrySet()){
             if(entry.getValue().getClients().contains(smarthome)){
                 return entry.getKey();
@@ -109,12 +114,24 @@ public class SmartManagerFacade implements Serializable {
 
     public void changeSupplier(String smarthome, int supplier) throws InvalidHomeException, InvalidSupplierException, SameSupplierException {
         if(clientSupplier(smarthome)==supplier) throw new SameSupplierException("SmartHouse: " + smarthome + " is already a client of: " + supplier + "!");
-        EnergySupplier es = suppliers.get(clientSupplier(smarthome));
+        EnergySupplier es;
+        if(changedsupplier.get(clientSupplier(smarthome))!=null){
+            es = changedsupplier.get(clientSupplier(smarthome));
+        }
+        else {
+            es = suppliers.get(clientSupplier(smarthome));
+        }
         if(es!=null) {
             List<String> newclients = new ArrayList<>(es.getClients());
             newclients.remove(smarthome);
 
-            EnergySupplier esNewClient = suppliers.get(supplier);
+            EnergySupplier esNewClient;
+            if(changedsupplier.get(supplier)!=null){
+                esNewClient = changedsupplier.get(supplier);
+            }
+            else {
+                esNewClient = suppliers.get(supplier);
+            }
             if(esNewClient!=null) {
                 List<String> newclients2 = new ArrayList<>(esNewClient.getClients());
                 newclients2.add(smarthome);
@@ -126,38 +143,67 @@ public class SmartManagerFacade implements Serializable {
     }
 
     public void toggleRoomDevices(String smarthome, String room, int value) throws InvalidRoomException {
-        SmartHome sh = smarthomes.get(smarthome);
-        SmartHome shchanged = new SmartHome(sh);
-        shchanged.toggleRoomDevices(room, value);
+        if(changedsmarthomes.get(smarthome)!=null){
+            SmartHome sh = changedsmarthomes.get(smarthome);
+            sh.toggleRoomDevices(room, value);
 
-        changedsmarthomes.put(shchanged.getOwnerNIF(), shchanged);
+            changedsmarthomes.put(sh.getOwnerNIF(), sh);
+        }
+        else {
+            SmartHome sh = smarthomes.get(smarthome);
+            SmartHome shchanged = new SmartHome(sh);
+            shchanged.toggleRoomDevices(room, value);
+
+            changedsmarthomes.put(shchanged.getOwnerNIF(), shchanged);
+        }
     }
 
     public int toggleDevice(String smarthome, int idDevice) throws InvalidDeviceException {
         int value;
-        SmartHome sh = smarthomes.get(smarthome);
-        SmartHome shchanged = new SmartHome(sh);
 
-        value = shchanged.toggleDevice(idDevice);
+        if(changedsmarthomes.get(smarthome)!=null){
+            SmartHome sh = changedsmarthomes.get(smarthome);
 
-        changedsmarthomes.put(shchanged.getOwnerNIF(), shchanged);
+            value = sh.toggleDevice(idDevice);
 
+            changedsmarthomes.put(sh.getOwnerNIF(), sh);
+        }
+        else {
+            SmartHome sh = smarthomes.get(smarthome);
+            SmartHome shchanged = new SmartHome(sh);
+
+            value = shchanged.toggleDevice(idDevice);
+
+            changedsmarthomes.put(shchanged.getOwnerNIF(), shchanged);
+        }
         return value;
     }
 
     public void changeSupplierTax(int supplier, float tax) throws InvalidSupplierException {
-        EnergySupplier es = suppliers.get(supplier);
-        if(es==null) throw new InvalidSupplierException("Supplier: " + supplier + " doesn't exist.");
-        else {
+        if(changedsupplier.get(supplier)!=null){
+            EnergySupplier es = changedsupplier.get(supplier);
             changedsupplier.put(supplier, new EnergySupplier(es.getName(), es.getClients(), es.getInvoices(), es.getBasePriceRate(), tax));
+        }
+        else {
+            EnergySupplier es = suppliers.get(supplier);
+            if (es == null) throw new InvalidSupplierException("Supplier: " + supplier + " doesn't exist.");
+            else {
+                changedsupplier.put(supplier, new EnergySupplier(es.getName(), es.getClients(), es.getInvoices(), es.getBasePriceRate(), tax));
+            }
         }
     }
 
     public void changeSupplierBaseRate(int supplier, float baseRate) throws InvalidSupplierException {
-        EnergySupplier es = suppliers.get(supplier);
-        if(es==null) throw new InvalidSupplierException("Supplier: " + supplier + " doesn't exist.");
-        else {
+        if(changedsupplier.get(supplier)!=null){
+            EnergySupplier es = changedsupplier.get(supplier);
             changedsupplier.put(supplier, new EnergySupplier(es.getName(), es.getClients(), es.getInvoices(), baseRate, es.getTax()));
+        }
+        else {
+            EnergySupplier es = suppliers.get(supplier);
+            if (es == null) throw new InvalidSupplierException("Supplier: " + supplier + " doesn't exist.");
+            else {
+                changedsupplier.put(supplier, new EnergySupplier(es.getName(), es.getClients(), es.getInvoices(), baseRate, es.getTax()));
+            }
         }
     }
 
@@ -183,7 +229,7 @@ public class SmartManagerFacade implements Serializable {
         this.currentDate = endLocalDate;
     }
 
-    public AbstractMap.Entry<String, Float> topHousePeriod(LocalDate from, LocalDate till) throws InexistentInvoicesException {
+    public AbstractMap.Entry<AbstractMap.Entry<String,String> , Float> topHousePeriod(LocalDate from, LocalDate till) throws InexistentInvoicesException {
         String topHouse = null;
         float topPayed = 0F;
         for(Map.Entry<Integer,EnergySupplier> entry : suppliers.entrySet()){
@@ -193,7 +239,7 @@ public class SmartManagerFacade implements Serializable {
             }
         }
         if(topHouse == null) throw new InexistentInvoicesException("There aren´t invoices in the period: " + from + " to " +till);
-        return new AbstractMap.SimpleEntry<>(smarthomes.get(topHouse).getOwnerName(),topPayed);
+        return new AbstractMap.SimpleEntry<>(new AbstractMap.SimpleEntry<>(smarthomes.get(topHouse).getOwnerName(), smarthomes.get(topHouse).getOwnerNIF()),topPayed);
     }
 
     public AbstractMap.Entry<String, Float> topSupplier() throws InexistentInvoicesException {
@@ -227,11 +273,11 @@ public class SmartManagerFacade implements Serializable {
         return s;
     }
 
-    public Map<String, Float> topConsumers(LocalDate from, LocalDate till){
-        Map<String, Float> topConsumers = new HashMap<>();
+    public Map<AbstractMap.Entry<String,String>, Float> topConsumers(LocalDate from, LocalDate till){
+        Map<AbstractMap.Entry<String,String>, Float> topConsumers = new HashMap<>();
         
         for(Map.Entry<Integer,EnergySupplier> entry : suppliers.entrySet()){
-            entry.getValue().topConsumers(from, till).forEach((key, value) -> topConsumers.put(smarthomes.get(key).getOwnerName(), value));
+            entry.getValue().topConsumers(from, till).forEach((key, value) -> topConsumers.put(new AbstractMap.SimpleEntry<>(smarthomes.get(key).getOwnerName(), smarthomes.get(key).getOwnerNIF()), value));
         }
 
         return topConsumers.entrySet()

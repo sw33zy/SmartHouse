@@ -235,7 +235,6 @@ public class Controller {
                     View.leave();
                     System.exit(0);
                     break;
-
             }
         }
     }

@@ -70,8 +70,8 @@ public class View {
         System.out.print (CSI + "31" + "m");
         System.out.println("0- Leave.\n");
         System.out.println (CSI + "m");
-        Scanner scanner = new Scanner(System.in);
-        return scanner.nextInt();
+
+        return askInt("");
 
     }
 
@@ -159,9 +159,9 @@ public class View {
         }
     }
 
-    public static void showTopHouse(AbstractMap.Entry<String, Float> entry, LocalDate from , LocalDate till){
+    public static void showTopHouse(AbstractMap.Entry<AbstractMap.Entry<String,String> , Float> entry, LocalDate from , LocalDate till){
         System.out.println(ANSI_YELLOW + "\nTop spending house in the period: " + from + " - " + till + ANSI_RESET);
-        System.out.println("> Owner Name: " + entry.getKey());
+        System.out.println("> Owner Name: " + entry.getKey().getKey() + " NIF: " + entry.getKey().getValue());
         System.out.println("> Total spent: " + entry.getValue() + "€");
     }
 
@@ -171,15 +171,15 @@ public class View {
         System.out.println("> Total earned: " + entry.getValue() + "€");
     }
 
-    public static void showTopConsumers(Map<String, Float> top, LocalDate from, LocalDate till){
+    public static void showTopConsumers(Map<AbstractMap.Entry<String,String>, Float> top, LocalDate from, LocalDate till){
         if(top.size() == 0) {
             showError("\nThere haven't been generated any invoices");
             return;
         }
         System.out.println(ANSI_YELLOW + "\nTop energy consuming houses in the period: " + from + " - " + till + ANSI_RESET);
         int i = top.size();
-        for(Map.Entry<String, Float> entry : top.entrySet()){
-            System.out.println("\t" + (i--) + ") Owner Name: " + entry.getKey() + "; Consumption: " + entry.getValue() + "kWday");
+        for(Map.Entry<AbstractMap.Entry<String,String>, Float> entry : top.entrySet()){
+            System.out.println("\t" + (i--) + ") Owner Name: " + entry.getKey().getKey() + " NIF: " + entry.getKey().getValue() + "; Consumption: " + entry.getValue() + "kW");
         }
     }
 
@@ -253,8 +253,8 @@ public class View {
         String CSI = "\u001B[";
         System.out.print (ANSI_YELLOW);
         System.out.println("/////////////////////////////////////////////////////////////");
-        System.out.println("\t\t\t\tSHM - Smart House Management\t\t");
-        System.out.println("\n\t\t@author Leonardo de Freitas Marreiros - pg47398\n");
+        System.out.println("\t\t\t\tSHM - Smart Management System\t\t");
+        System.out.println("\n\t\t@author Leonardo de Freitas Marreiros - a89537\n");
         System.out.println("/////////////////////////////////////////////////////////////");
         System.out.print (ANSI_RESET);
     }
